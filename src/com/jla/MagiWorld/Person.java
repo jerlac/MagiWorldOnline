@@ -61,7 +61,7 @@ abstract class Person {
     protected abstract String[] attaqueSpeciale(Person pers1, Person pers2);
 
     /**
-     * Vérifie si la somme des caractéristiques de force, agilité et intelligence est égal au niveau du joueur
+     * Vérifie si la somme des caractéristiques de force, agilité et intelligence est égale au niveau du joueur
      * @return true si la somme est égale, false sinon
      */
     public boolean checkSumInputSkills(){

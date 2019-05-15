@@ -15,6 +15,10 @@ public class Player {
 
     protected boolean createPlayer(int typePers, int niveau, int force, int agility, int intelligence){
         boolean isCreated =false;
+
+        if(false==this.checkInputValues())
+            return false;
+
         //1: Guerrier
         //2: Rôdeur
         //3: Mage
@@ -25,9 +29,11 @@ public class Player {
                 isCreated =true;
                 break;
             case 2:
+                pers =new Rodeur(niveau, force, agility, intelligence);
                 isCreated =true;
                 break;
             case 3:
+                pers =new Mage(niveau, force, agility, intelligence);
                 isCreated =true;
                 break;
 
@@ -35,7 +41,11 @@ public class Player {
         return isCreated;
     }
 
-    private boolean checkInutValues(){
+    /**
+     * vérifie si les caractéristiques sont correctes
+     * @return true si ok, false sinon.
+     */
+    private boolean checkInputValues(){
 
         if(!this.pers.checkInputMinMaxAgility()){
             Utility.writeMsg("L'agilité doit être entre 0 et 100");
@@ -53,7 +63,10 @@ public class Player {
             Utility.writeMsg("La force doit être entre 1 et 100");
             return false;
         }
-
+        if(!this.pers.checkSumInputSkills()) {
+            Utility.writeMsg("La somme des caractéristiques ne doit pas dépasser le niveau !");
+            return false;
+        }
 
         return true;
     }
