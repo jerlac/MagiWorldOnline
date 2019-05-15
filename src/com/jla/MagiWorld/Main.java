@@ -9,16 +9,17 @@ public class Main {
 
         for (int i=1; i<=2; i++) {
             Utility.writeMsg("Création du personnage du Joueur " +i);
-            askTypePers(sc);
-            askInput(sc, 1, 100, "Niveau");
-            askInput(sc, 0, 100, "Force");
-            askInput(sc, 0, 100, "Agilité");
-            askInput(sc, 0, 100, "Intelligence");
+            int inputTypePers =askTypePers(sc);
+            int inputNiveau =askInput(sc, 1, 100, "Niveau");
+            int inputForce =askInput(sc, 0, 100, "Force");
+            int inputAgility =askInput(sc, 0, 100, "Agilité");
+            int inputIntelligence =askInput(sc, 0, 100, "Intelligence");
             //TODO à finir
+
         }
     }
 
-    private static void askTypePers(Scanner sc){
+    private static int askTypePers(Scanner sc){
         int input;
         Utility.writeMsg("Veuillez choisir la classe de votre personnage (1 : Guerrier, 2: Rôdeur, 3: Mage)%n");
         do{
@@ -27,9 +28,11 @@ public class Main {
                 Utility.writeMsg("Veuillez saisir une valeur entre 1 et 3 inclus !%n");
             }
         } while(input<1 || input>3);
+
+        return input;
     }
 
-    private static void askInput(Scanner sc, int min, int max, String type) {
+    private static int askInput(Scanner sc, int min, int max, String type) {
         int input;
         Utility.writeMsg(type + " du personnage ? ("+ min+ " à "+ max +") %n");
         do{
@@ -38,6 +41,8 @@ public class Main {
                 Utility.writeMsg("Veuillez saisir une valeur entre "+ min+ " et "+ max+ " inclus !%n");
             }
         } while(input<min || input >max);
+
+        return input;
     }
 
 
