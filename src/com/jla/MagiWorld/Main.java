@@ -1,6 +1,5 @@
 package com.jla.MagiWorld;
 
-import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,14 +18,24 @@ public class Main {
             }
 
             //déroulement du combat
-            for (int i = 1; i <= 2; i++) {
-                playerAction(sc, players, i);
+            boolean continueGame =true;
+            int numPlayer =1;
+            while (continueGame){
+                playerAction(sc, players, numPlayer);
                 if (!playerStillAlive(players))
-                    return;
+                    continueGame =false;
+                numPlayer++;
+                if(numPlayer%2==1)
+                    numPlayer =1;
+                else
+                    numPlayer =2;
             }
         }
         catch(Exception exp) {
             Utility.writeMsg("Une erreur est survenue !");
+        }
+        finally{
+            Utility.writeMsg("%nLe jeu est terminé !");
         }
     }
 
@@ -37,8 +46,17 @@ public class Main {
      * @param numPlayer le numéro du joueur en cours
      */
     private static void playerAction(Scanner sc, Player[] players, int numPlayer) {
+        int numPlayerAdverse=-1;
+        if(1==numPlayer)
+            numPlayerAdverse =1;
+        else if(2==numPlayer)
+            numPlayerAdverse=0;
+
+        if(-1==numPlayerAdverse)
+            throw new ArithmeticException("[playerAction] le numéro du joueur n'est pas 1 ou 2");
+
         Player player =players[numPlayer-1];
-        Utility.writeMsg("Joueur "+numPlayer+ " ("+ player.getVitality()+ "vitalité), veuillez choisir votre action (1: attaque basique, 2: Attaque spéciale)");
+        Utility.writeMsg("Joueur "+numPlayer+ " ("+ player.getVitality()+ " vitalité), veuillez choisir votre action (1: Attaque basique, 2: Attaque spéciale)");
         int input;
         do{
             input = sc.nextInt();
@@ -49,25 +67,28 @@ public class Main {
 
         switch (input){
             case 1://Attaque basique
-                //players[numPlayer] => joueur adverse
-                player.executeAction(Player.TypeAttack.attaqueBasique, players[numPlayer]);
+                player.executeAction(Player.TypeAttack.attaqueBasique, players[numPlayerAdverse]);
                 break;
             case 2://Attaque spéciale
-                //players[numPlayer] => joueur adverse
-                player.executeAction(Player.TypeAttack.attaqueSpeciale, players[numPlayer]);
+                player.executeAction(Player.TypeAttack.attaqueSpeciale, players[numPlayerAdverse]);
                 break;
         }
 
+        //Affiche le résultat des actions
         Person.MessagePerson msgPers =player.getMessagePerson();
         if(msgPers!=null) {
             ArrayList<String> msgAttacks =msgPers.getPlayerInAttack();
-            for (int j=0; j<msgAttacks.size(); j++){
-                Utility.writeMsg("Joueur " + (numPlayer-1) + " "+ msgAttacks.get(j)+"%n");
+            if(msgAttacks!=null) {
+                for(String str : msgAttacks){
+                    Utility.writeMsg("Joueur " + numPlayer + " " + str);
+                }
             }
 
             ArrayList<String> msgDefenses =msgPers.getPlayerInDefense();
-            for (int j=0; j<msgDefenses.size(); j++){
-                Utility.writeMsg("Joueur " + numPlayer + " "+ msgDefenses.get(j)+"%n");
+            if(msgDefenses!=null) {
+                for (String str : msgDefenses) {
+                    Utility.writeMsg("Joueur " + (numPlayerAdverse + 1) + " " + str);
+                }
             }
         }
     }
@@ -120,11 +141,11 @@ public class Main {
      */
     private static Player.TypePlayer askTypePers(Scanner sc){
         int input;
-        Utility.writeMsg("Veuillez choisir la classe de votre personnage (1 : Guerrier, 2: Rôdeur, 3: Mage)%n");
+        Utility.writeMsg("Veuillez choisir la classe de votre personnage (1 : Guerrier, 2: Rôdeur, 3: Mage)");
         do{
             input = sc.nextInt();
             if(input<1 || input>3) {
-                Utility.writeMsg("Veuillez saisir une valeur entre 1 et 3 inclus !%n");
+                Utility.writeMsg("Veuillez saisir une valeur entre 1 et 3 inclus !");
             }
         } while(input<1 || input>3);
 
@@ -154,11 +175,11 @@ public class Main {
      */
     private static int askInput(Scanner sc, int min, int max, String type) {
         int input;
-        Utility.writeMsg(type + " du personnage ? ("+ min+ " à "+ max +") %n");
+        Utility.writeMsg(type + " du personnage ? ("+ min+ " à "+ max +")");
         do{
             input = sc.nextInt();
             if(input<min || input >max) {
-                Utility.writeMsg("Veuillez saisir une valeur entre "+ min+ " et "+ max+ " inclus !%n");
+                Utility.writeMsg("Veuillez saisir une valeur entre "+ min+ " et "+ max+ " inclus !");
             }
         } while(input<min || input >max);
 

@@ -1,10 +1,9 @@
 package com.jla.MagiWorld;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Rodeur extends Person {
-    public Rodeur(int niveau, int force, int agility, int intelligence) {
+    Rodeur(int niveau, int force, int agility, int intelligence) {
         super(niveau, force, agility, intelligence);
     }
 
@@ -13,19 +12,22 @@ public class Rodeur extends Person {
      * @param pers Personnage recevant le coup
      */
     @Override
-    public void attaqueBasique(Person pers) {
+    protected void attaqueBasique(Person pers) {
         MessagePerson msgPers =this.getMessagePerson();
-        List<String> msgAttack =msgPers.getPlayerInAttack();
-        List<String> msgDef =msgPers.getPlayerInDefense();
+        ArrayList<String> msgAttack =new ArrayList<>();
+        ArrayList<String> msgDef =new ArrayList<>();
 
-        int damage =this.getForce();
+        int damage =this.getAgility();
         pers.setVie(pers.getVie() - damage);
 
-        msgAttack.add("utilise Tir à l'Arc et inflige "+ String.valueOf(damage)+ " dommages.");
-        msgDef.add("perd "+ String.valueOf(damage)+ " points de vie.");
+        msgAttack.add("utilise Tir à l'Arc et inflige "+ damage+ " dommages.");
+        msgDef.add("perd "+ damage+ " points de vie.");
 
         if(pers.getVie() <=0)
             msgDef.add("est mort.");
+
+        msgPers.setPlayerInAttack(msgAttack);
+        msgPers.setPlayerInDefense(msgDef);
     }
 
     /**
@@ -33,15 +35,18 @@ public class Rodeur extends Person {
      * @param pers inutile ici, passez null
      */
     @Override
-    public void attaqueSpeciale(Person pers) {
+    protected void attaqueSpeciale(Person pers) {
         MessagePerson msgPers =this.getMessagePerson();
-        List<String> msgAttack =msgPers.getPlayerInAttack();
+        ArrayList<String> msgAttack =new ArrayList<>();
 
         //Gain d'agilité pour lui-même
         int result =this.getNiveau() / 2;
-        this.setAgility(result);
+        this.setAgility(this.getAgility() +result);
 
-        msgAttack.add("utilise Concentration et gagne "+ String.valueOf(result)+ " en agilité.");
+        msgAttack.add("utilise Concentration et gagne "+ result+ " en agilité.");
+
+        msgPers.setPlayerInAttack(msgAttack);
+        msgPers.setPlayerInDefense(null);
     }
 
 }

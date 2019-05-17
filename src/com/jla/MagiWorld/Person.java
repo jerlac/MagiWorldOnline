@@ -39,7 +39,7 @@ abstract class Person {
         return force;
     }
 
-    protected int getAgility() {
+    int getAgility() {
         return agility;
     }
 
@@ -67,21 +67,31 @@ abstract class Person {
         return (this.vie > 0);
     }
 
+    /**
+     * Permet d'avoir le smessages à destination des joueurs en attaque ou en défense
+     */
     class MessagePerson{
         private ArrayList<String> playerInAttack;
         private ArrayList<String> playerInDefense;
 
         MessagePerson(){
-            this.playerInAttack =new ArrayList<String>();
-            this.playerInDefense =new ArrayList<String>();
+
         }
 
-        public ArrayList<String> getPlayerInAttack() {
+        ArrayList<String> getPlayerInAttack() {
             return playerInAttack;
         }
 
-        public ArrayList<String> getPlayerInDefense() {
+        ArrayList<String> getPlayerInDefense() {
             return playerInDefense;
+        }
+
+        void setPlayerInAttack(ArrayList<String> playerInAttack) {
+            this.playerInAttack = playerInAttack;
+        }
+
+        void setPlayerInDefense(ArrayList<String> playerInDefense) {
+            this.playerInDefense = playerInDefense;
         }
     }
 }

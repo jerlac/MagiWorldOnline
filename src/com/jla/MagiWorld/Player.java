@@ -1,6 +1,6 @@
 package com.jla.MagiWorld;
 
-public class Player {
+class Player {
     private Person pers;
     private int niveau;
     private int force;
@@ -67,12 +67,12 @@ public class Player {
 
     /**
      * Vérifie si la somme des caractéristiques de force, agilité et intelligence est égale au niveau du joueur
-     * @return true si la somme est égale, false sinon
+     * @return true si la somme est inférieure ou égale, false sinon
      */
     private boolean checkSumInputSkills(){
         int sumSkills =this.force + this.agility + this.intelligence;
 
-        return (sumSkills == this.niveau);
+        return (sumSkills <= this.niveau);
     }
 
     /**
@@ -82,8 +82,6 @@ public class Player {
      * @return true si la création s'est bien passée, false sinon
      */
     boolean createPlayer(int numPlayer, TypePlayer typePlayer){
-        boolean isCreated =false;
-
         if(!this.checkInputValues())
             return false;
 
@@ -95,23 +93,20 @@ public class Player {
             case Guerrier:
                 pers =new Guerrier(this.niveau, this.force, this.agility, this.intelligence);
                 msgPers ="Woarg je suis le Guerrier";
-                isCreated =true;
                 break;
             case Rodeur:
                 pers =new Rodeur(this.niveau, this.force, this.agility, this.intelligence);
                 msgPers ="Wizz je suis le Rôdeur";
-                isCreated =true;
                 break;
             case Mage:
                 pers =new Mage(this.niveau, this.force, this.agility, this.intelligence);
                 msgPers ="Abracadabra je suis le Mage";
-                isCreated =true;
                 break;
         }
-        if(isCreated)
-            Utility.writeMsg(msgPers + "Joueur "+ numPlayer+ "niveau "+ this.niveau+ " je possède "+ this.pers.getVie()+ " de vitalité, "+ this.force+ " de force, "+ this.agility+ " d'agilité, "+ this.intelligence+ "d'intelligence !");
 
-        return isCreated;
+        Utility.writeMsg(msgPers + " Joueur "+ numPlayer+ " niveau "+ this.niveau+ " je possède "+ this.pers.getVie()+ " de vitalité, "+ this.force+ " de force, "+ this.agility+ " d'agilité, "+ this.intelligence+ " d'intelligence !");
+
+        return true;
     }
 
     /**

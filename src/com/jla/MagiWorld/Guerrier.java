@@ -1,9 +1,9 @@
 package com.jla.MagiWorld;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Guerrier extends Person {
-    public Guerrier(int niveau, int force, int agility, int intelligence) {
+    Guerrier(int niveau, int force, int agility, int intelligence) {
         super(niveau, force, agility, intelligence);
     }
 
@@ -12,10 +12,10 @@ public class Guerrier extends Person {
      * @param pers Personnage recevant le coup
      */
     @Override
-    public void attaqueBasique(Person pers) {
+    protected void attaqueBasique(Person pers) {
         MessagePerson msgPers =this.getMessagePerson();
-        ArrayList<String> msgAttack =msgPers.getPlayerInAttack();
-        ArrayList<String> msgDef =msgPers.getPlayerInDefense();
+        ArrayList<String> msgAttack =new ArrayList<>();
+        ArrayList<String> msgDef =new ArrayList<>();
 
         int damage =this.getForce();
         pers.setVie(pers.getVie() - damage);
@@ -25,6 +25,9 @@ public class Guerrier extends Person {
 
         if(pers.getVie() <=0)
             msgDef.add("est mort.");
+
+        msgPers.setPlayerInAttack(msgAttack);
+        msgPers.setPlayerInDefense(msgDef);
     }
 
     /**
@@ -32,10 +35,10 @@ public class Guerrier extends Person {
      * @param pers Personnage recevant le coup
      */
     @Override
-    public void attaqueSpeciale(Person pers) {
+    protected void attaqueSpeciale(Person pers) {
         MessagePerson msgPers =this.getMessagePerson();
-        ArrayList<String> msgAttack =msgPers.getPlayerInAttack();
-        ArrayList<String> msgDef =msgPers.getPlayerInDefense();
+        ArrayList<String> msgAttack =new ArrayList<>();
+        ArrayList<String> msgDef =new ArrayList<>();
 
         //Perte de vie pour pers
         int damage =this.getForce() * 2;
@@ -50,6 +53,9 @@ public class Guerrier extends Person {
         //Perte de vie pour lui-même
         int thisDamage =this.getForce() /2;
         this.setVie(this.getVie() - thisDamage);
-        msgAttack.add("perd "+ String.valueOf(thisDamage)+ " points de vie.");
+        msgAttack.add("perd "+ thisDamage+ " points de vie.");
+
+        msgPers.setPlayerInAttack(msgAttack);
+        msgPers.setPlayerInDefense(msgDef);
     }
 }
