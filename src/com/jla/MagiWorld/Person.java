@@ -63,52 +63,11 @@ abstract class Person {
      */
     protected abstract void attaqueSpeciale(Person pers);
 
-    /**
-     * Vérifie si la somme des caractéristiques de force, agilité et intelligence est égale au niveau du joueur
-     * @return true si la somme est égale, false sinon
-     */
-    public boolean checkSumInputSkills(){
-        int sumSkills =this.force + this.agility + this.intelligence;
-
-        return (sumSkills == this.niveau);
-    }
-
-    /**
-     * Vérifie si la caractéristique est comprise entre 1 et 100
-     * @return true si ok, false sinon
-     */
-    protected boolean checkInputMinMaxNiveau(){
-        return (this.niveau>=1 && this.niveau <= 100);
-    }
-    /**
-     * Vérifie si la caractéristique est comprise entre 0 et 100
-     * @return true si ok, false sinon
-     */
-    protected boolean checkInputMinMaxForce(){
-        return (this.force >=0 && this.force <= 100);
-    }
-
-    /**
-     * Vérifie si la caractéristique est comprise entre 0 et 100
-     * @return true si ok, false sinon
-     */
-    protected boolean checkInputMinMaxAgility(){
-        return (this.agility >=0 && this.agility <= 100);
-    }
-
-    /**
-     * Vérifie si la caractéristique est comprise entre 0 et 100
-     * @return true si ok, false sinon
-     */
-    protected boolean checkInputMinMaxIntelligence(){
-        return (this.intelligence >=0 && this.intelligence <= 100);
-    }
-
-    protected boolean isAlive(){
+    boolean isAlive(){
         return (this.vie > 0);
     }
 
-    protected  class MessagePerson{
+    class MessagePerson{
         private ArrayList<String> playerInAttack;
         private ArrayList<String> playerInDefense;
 

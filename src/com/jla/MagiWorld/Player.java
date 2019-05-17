@@ -7,52 +7,109 @@ public class Player {
     private int agility;
     private int intelligence;
 
+    protected enum TypePlayer{
+        Guerrier,
+        Rodeur,
+        Mage
+    }
+
     protected enum TypeAttack{
         attaqueBasique,
         attaqueSpeciale
     }
 
-    Player(){
-
+    Player(int niveau, int force, int agility, int intelligence){
+        this.niveau =niveau;
+        this.force =force;
+        this.agility =agility;
+        this.intelligence =intelligence;
     }
 
-    protected int getVitality(){
+    int getVitality(){
         return this.pers.getVie();
     }
 
-    protected Person.MessagePerson getMessagePerson(){
+    Person.MessagePerson getMessagePerson(){
         return this.pers.getMessagePerson();
     }
 
-    protected boolean createPlayer(int numPlayer, int typePers, int niveau, int force, int agility, int intelligence){
+    /**
+     * Vérifie si la caractéristique est comprise entre 1 et 100
+     * @return true si ok, false sinon
+     */
+    private boolean checkInputMinMaxNiveau(){
+        return (this.niveau>=1 && this.niveau <= 100);
+    }
+
+    /**
+     * Vérifie si la caractéristique est comprise entre 0 et 100
+     * @return true si ok, false sinon
+     */
+    private boolean checkInputMinMaxForce(){
+        return (this.force >=0 && this.force <= 100);
+    }
+
+    /**
+     * Vérifie si la caractéristique est comprise entre 0 et 100
+     * @return true si ok, false sinon
+     */
+    private boolean checkInputMinMaxAgility(){
+        return (this.agility >=0 && this.agility <= 100);
+    }
+
+    /**
+     * Vérifie si la caractéristique est comprise entre 0 et 100
+     * @return true si ok, false sinon
+     */
+    private boolean checkInputMinMaxIntelligence(){
+        return (this.intelligence >=0 && this.intelligence <= 100);
+    }
+
+    /**
+     * Vérifie si la somme des caractéristiques de force, agilité et intelligence est égale au niveau du joueur
+     * @return true si la somme est égale, false sinon
+     */
+    private boolean checkSumInputSkills(){
+        int sumSkills =this.force + this.agility + this.intelligence;
+
+        return (sumSkills == this.niveau);
+    }
+
+    /**
+     * Crée le type de joueur choisi
+     * @param numPlayer le numéro du joueur
+     * @param typePlayer le type choisi
+     * @return true si la création s'est bien passée, false sinon
+     */
+    boolean createPlayer(int numPlayer, TypePlayer typePlayer){
         boolean isCreated =false;
 
-        if(false==this.checkInputValues())
+        if(!this.checkInputValues())
             return false;
 
         String msgPers="";
         //1: Guerrier
         //2: Rôdeur
         //3: Mage
-        switch (typePers){
-            case 1:
-                pers =new Guerrier(niveau, force, agility, intelligence);
+        switch (typePlayer){
+            case Guerrier:
+                pers =new Guerrier(this.niveau, this.force, this.agility, this.intelligence);
                 msgPers ="Woarg je suis le Guerrier";
                 isCreated =true;
                 break;
-            case 2:
-                pers =new Rodeur(niveau, force, agility, intelligence);
+            case Rodeur:
+                pers =new Rodeur(this.niveau, this.force, this.agility, this.intelligence);
                 msgPers ="Wizz je suis le Rôdeur";
                 isCreated =true;
                 break;
-            case 3:
-                pers =new Mage(niveau, force, agility, intelligence);
+            case Mage:
+                pers =new Mage(this.niveau, this.force, this.agility, this.intelligence);
                 msgPers ="Abracadabra je suis le Mage";
                 isCreated =true;
                 break;
         }
         if(isCreated)
-            Utility.writeMsg(msgPers + "Joueur "+ numPlayer+ "niveau "+ niveau+ " je possède "+ pers.getVie()+ " de vitalité, "+ force+ " de force, "+ agility+ " d'agilité, "+ intelligence+ "d'intelligence !");
+            Utility.writeMsg(msgPers + "Joueur "+ numPlayer+ "niveau "+ this.niveau+ " je possède "+ this.pers.getVie()+ " de vitalité, "+ this.force+ " de force, "+ this.agility+ " d'agilité, "+ this.intelligence+ "d'intelligence !");
 
         return isCreated;
     }
@@ -63,23 +120,23 @@ public class Player {
      */
     private boolean checkInputValues(){
 
-        if(!this.pers.checkInputMinMaxAgility()){
+        if(!this.checkInputMinMaxAgility()){
             Utility.writeMsg("L'agilité doit être entre 0 et 100");
             return false;
         }
-        if(!this.pers.checkInputMinMaxForce()){
+        if(!this.checkInputMinMaxForce()){
             Utility.writeMsg("La force doit être entre 0 et 100");
             return false;
         }
-        if(!this.pers.checkInputMinMaxIntelligence()){
+        if(!this.checkInputMinMaxIntelligence()){
             Utility.writeMsg("L'intelligence doit être entre 0 et 100");
             return false;
         }
-        if(!this.pers.checkInputMinMaxNiveau()){
+        if(!this.checkInputMinMaxNiveau()){
             Utility.writeMsg("La force doit être entre 1 et 100");
             return false;
         }
-        if(!this.pers.checkSumInputSkills()) {
+        if(!this.checkSumInputSkills()) {
             Utility.writeMsg("La somme des caractéristiques ne doit pas dépasser le niveau !");
             return false;
         }
@@ -93,7 +150,7 @@ public class Player {
      * @param attack Le type d'attaque
      * @param playerAdverse le joueur advsrse sur lequel lancer l'action
      */
-    protected void executeAction(TypeAttack attack, Player playerAdverse){
+    void executeAction(TypeAttack attack, Player playerAdverse){
         switch (attack){
             case attaqueBasique:
                 this.pers.attaqueBasique(playerAdverse.pers);
@@ -108,7 +165,7 @@ public class Player {
      * Vérifie si le joueur est encore en vie
      * @return true si vivant, false sinon
      */
-    protected boolean isalive(){
+    boolean isAlive(){
         return this.pers.isAlive();
     }
 }

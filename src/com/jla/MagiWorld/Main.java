@@ -78,12 +78,12 @@ public class Main {
      * @return true si vivant, false sinon
      */
     private static boolean playerStillAlive(Player[] players){
-        if(!players[0].isalive()) {
+        if(!players[0].isAlive()) {
             Utility.writeMsg("Joueur 1 a perdu !");
             return false;
         }
 
-        if(!players[1].isalive()) {
+        if(!players[1].isAlive()) {
             Utility.writeMsg("Joueur 2 a perdu !");
             return false;
         }
@@ -99,15 +99,15 @@ public class Main {
      */
     private static Player getPlayer(Scanner sc, int numPlayer) {
         Utility.writeMsg("Création du personnage du Joueur " +numPlayer);
-        int inputTypePers =askTypePers(sc);
+        Player.TypePlayer typePlayer =askTypePers(sc);
         int inputNiveau =askInput(sc, 1, 100, "Niveau");
         int inputForce =askInput(sc, 0, 100, "Force");
         int inputAgility =askInput(sc, 0, 100, "Agilité");
         int inputIntelligence =askInput(sc, 0, 100, "Intelligence");
 
-        Player player = new Player();
-        if(!player.createPlayer(numPlayer, inputTypePers, inputNiveau, inputForce, inputAgility, inputIntelligence)) {
-            Utility.writeMsg("erreur à la création joueur 1%n Fin du programme !");
+        Player player = new Player(inputNiveau, inputForce, inputAgility, inputIntelligence);
+        if(!player.createPlayer(numPlayer, typePlayer)) {
+            Utility.writeMsg("Erreur lors de la création du joueur "+ numPlayer +"%nFin du programme !");
             return null;
         }
         return player;
@@ -118,7 +118,7 @@ public class Main {
      * @param sc le scanner pour récupérer la saisie de l'utilisateur
      * @return le type du joueur choisi
      */
-    private static int askTypePers(Scanner sc){
+    private static Player.TypePlayer askTypePers(Scanner sc){
         int input;
         Utility.writeMsg("Veuillez choisir la classe de votre personnage (1 : Guerrier, 2: Rôdeur, 3: Mage)%n");
         do{
@@ -128,13 +128,26 @@ public class Main {
             }
         } while(input<1 || input>3);
 
-        return input;
+        //Par défaut, on dit qu'il est un guerrier
+        Player.TypePlayer typePlayer= Player.TypePlayer.Guerrier;
+        switch (input){
+            case 1:
+                typePlayer = Player.TypePlayer.Guerrier;
+                break;
+            case 2:
+                typePlayer = Player.TypePlayer.Rodeur;
+                break;
+            case 3:
+                typePlayer = Player.TypePlayer.Mage;
+                break;
+        }
+        return typePlayer;
     }
 
     /**
      * demande les informations pour le joueur
      * @param sc le scanner pour récupérer la saisie de l'utilisateur
-     * @param min la vleur minimale possible
+     * @param min la valeur minimale possible
      * @param max la valeur maximale possible
      * @param type la caractéristique à traiter
      * @return la valeur de la caractéristique
