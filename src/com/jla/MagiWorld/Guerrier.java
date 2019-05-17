@@ -1,39 +1,55 @@
 package com.jla.MagiWorld;
 
+import java.util.*;
+
 public class Guerrier extends Person {
     public Guerrier(int niveau, int force, int agility, int intelligence) {
         super(niveau, force, agility, intelligence);
     }
 
     /**
-     * coup d'épée infligé par pers1 sur pers2
-     * @param pers1 personnage infligeant le coup
-     * @param pers2 Personnage recevant le coup
-     * @return String["texte du coup", "dégat infligé"]
+     * coup d'épée infligé sur  la personne
+     * @param pers Personnage recevant le coup
      */
     @Override
-    public String[] attaqueBasique(Person pers1, Person pers2) {
-        int damage =pers1.getForce();
-        pers2.setVie(pers2.getVie() - damage);
+    public void attaqueBasique(Person pers) {
+        MessagePerson msgPers =this.getMessagePerson();
+        ArrayList<String> msgAttack =msgPers.getPlayerInAttack();
+        ArrayList<String> msgDef =msgPers.getPlayerInDefense();
 
-        return new String[]{"Coup d'épée", String.valueOf(damage)};
+        int damage =this.getForce();
+        pers.setVie(pers.getVie() - damage);
+        msgAttack.add("utilise Coup d'épée et inflige "+ damage+ " dommages.");
+
+        msgDef.add("perd "+ damage+ " points de vie.");
+
+        if(pers.getVie() <=0)
+            msgDef.add("est mort.");
     }
 
     /**
-     * coupe de rage infligé par pers1 sur pers2
-     * @param pers1 personnage infligeant le coup
-     * @param pers2 Personnage recevant le coup
-     * @return String["texte du coup", "dégat infligé"]
+     * coupe de rage infligé sur la personne
+     * @param pers Personnage recevant le coup
      */
     @Override
-    public String[] attaqueSpeciale(Person pers1, Person pers2) {
-        //Perte de vie pour pers2
-        int damage =pers1.getForce() * 2;
-        pers2.setVie(pers2.getVie() - damage);
+    public void attaqueSpeciale(Person pers) {
+        MessagePerson msgPers =this.getMessagePerson();
+        ArrayList<String> msgAttack =msgPers.getPlayerInAttack();
+        ArrayList<String> msgDef =msgPers.getPlayerInDefense();
 
-        //Perte de vie pour le pers1
-        pers1.setVie(pers1.getVie() - (pers1.getForce() /2));
+        //Perte de vie pour pers
+        int damage =this.getForce() * 2;
+        pers.setVie(pers.getVie() - damage);
+        msgAttack.add("utilise Coup de rage et inflige "+ damage+ " dommages.");
 
-        return new String[]{"Coup de rage", String.valueOf(damage)};
+        msgDef.add("perd "+ damage+ " points de vie.");
+
+        if(pers.getVie() <=0)
+            msgDef.add("est mort.");
+
+        //Perte de vie pour lui-même
+        int thisDamage =this.getForce() /2;
+        this.setVie(this.getVie() - thisDamage);
+        msgAttack.add("perd "+ String.valueOf(thisDamage)+ " points de vie.");
     }
 }

@@ -1,5 +1,8 @@
 package com.jla.MagiWorld;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Mage extends Person {
     private int vieInitiale;
 
@@ -10,37 +13,44 @@ public class Mage extends Person {
     }
 
     /**
-     * boule de feu infligé par pers1 sur pers2
-     * @param pers1 personnage infligeant le coup
-     * @param pers2 Personnage recevant le coup
-     * @return String["texte du coup", "dégat infligé"]
+     * boule de feu infligé sur pers
+     * @param pers Personnage recevant le coup
      */
     @Override
-    public String[] attaqueBasique(Person pers1, Person pers2) {
-        int damage =pers1.getIntelligence();
-        pers2.setVie(pers2.getVie() - damage);
+    public void attaqueBasique(Person pers) {
+        MessagePerson msgPers =this.getMessagePerson();
+        List<String> msgAttack =msgPers.getPlayerInAttack();
+        List<String> msgDef =msgPers.getPlayerInDefense();
 
-        return new String[]{"Boule de Feu", String.valueOf(damage)};
+        int damage =this.getIntelligence();
+        pers.setVie(pers.getVie() - damage);
+
+        msgAttack.add("utilise Boule de Feu et inflige "+ String.valueOf(damage)+ " dommages.");
+        msgDef.add("perd "+ String.valueOf(damage)+ " points de vie.");
+
+        if(pers.getVie() <=0)
+            msgDef.add("est mort.");
     }
 
     /**
-     * soin pour pers1
-     * @param pers1 personnage concernée
-     * @param pers2 inutile ici, passez null
-     * @return String["texte du coup", "effet ressenti"]
+     * soin pour lui-même
+     * @param pers inutile ici, passez null
      */
     @Override
-    public String[] attaqueSpeciale(Person pers1, Person pers2) {
-        //Gain de vie pour pers1
-        int result =pers1.getIntelligence() * 2;
-        int newVie = pers1.getVie() + result;
+    public void attaqueSpeciale(Person pers) {
+        MessagePerson msgPers =this.getMessagePerson();
+        List<String> msgAttack =msgPers.getPlayerInAttack();
+
+        //Gain de vie pour lui-même
+        int result =this.getIntelligence() * 2;
+        int newVie = this.getVie() + result;
 
         if(newVie > this.vieInitiale)
             newVie =this.vieInitiale;
 
-        pers1.setVie(newVie);
+        this.setVie(newVie);
 
-        return new String[]{"Soin", String.valueOf(result)};
+        msgAttack.add("utilise Soin et gagne "+ String.valueOf(result)+ " en vitalité.");
     }
 
 }

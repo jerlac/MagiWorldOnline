@@ -1,37 +1,47 @@
 package com.jla.MagiWorld;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Rodeur extends Person {
     public Rodeur(int niveau, int force, int agility, int intelligence) {
         super(niveau, force, agility, intelligence);
     }
 
     /**
-     * tir à l'arc infligé par pers1 sur pers2
-     * @param pers1 personnage infligeant le coup
-     * @param pers2 Personnage recevant le coup
-     * @return String["texte du coup", "dégat infligé"]
+     * tir à l'arc infligé sur pers
+     * @param pers Personnage recevant le coup
      */
     @Override
-    public String[] attaqueBasique(Person pers1, Person pers2) {
-        int damage =pers1.getForce();
-        pers2.setVie(pers2.getVie() - damage);
+    public void attaqueBasique(Person pers) {
+        MessagePerson msgPers =this.getMessagePerson();
+        List<String> msgAttack =msgPers.getPlayerInAttack();
+        List<String> msgDef =msgPers.getPlayerInDefense();
 
-        return new String[]{"Tir à l'Arc", String.valueOf(damage)};
+        int damage =this.getForce();
+        pers.setVie(pers.getVie() - damage);
+
+        msgAttack.add("utilise Tir à l'Arc et inflige "+ String.valueOf(damage)+ " dommages.");
+        msgDef.add("perd "+ String.valueOf(damage)+ " points de vie.");
+
+        if(pers.getVie() <=0)
+            msgDef.add("est mort.");
     }
 
     /**
-     * concentration pour pers1
-     * @param pers1 personnage concernée
-     * @param pers2 inutile ici, passez null
-     * @return String["texte du coup", "effet ressenti"]
+     * concentration sur lui-même
+     * @param pers inutile ici, passez null
      */
     @Override
-    public String[] attaqueSpeciale(Person pers1, Person pers2) {
-        //Gain d'agilité pour pers1
-        int res =pers1.getNiveau() / 2;
-        pers1.setAgility(res);
+    public void attaqueSpeciale(Person pers) {
+        MessagePerson msgPers =this.getMessagePerson();
+        List<String> msgAttack =msgPers.getPlayerInAttack();
 
-        return new String[]{"Concentration", String.valueOf(res)};
+        //Gain d'agilité pour lui-même
+        int result =this.getNiveau() / 2;
+        this.setAgility(result);
+
+        msgAttack.add("utilise Concentration et gagne "+ String.valueOf(result)+ " en agilité.");
     }
 
 }

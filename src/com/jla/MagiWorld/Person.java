@@ -1,11 +1,14 @@
 package com.jla.MagiWorld;
 
+import java.util.ArrayList;
+
 abstract class Person {
     private int niveau;
     private int vie;
     private int force;
     private int agility;
     private int intelligence;
+    private MessagePerson msgPerson;
 
     Person(int niveau, int force, int agility, int intelligence) {
         this.niveau = niveau;
@@ -14,7 +17,11 @@ abstract class Person {
         this.intelligence = intelligence;
 
         this.vie =5 * this.niveau;
+
+        this.msgPerson =new MessagePerson();
     }
+
+    MessagePerson getMessagePerson(){ return msgPerson; }
 
     int getNiveau() {
         return niveau;
@@ -45,20 +52,16 @@ abstract class Person {
     }
 
     /**
-     * action de pers1 sur pers2
-     * @param pers1 personnage infligeant le coup
-     * @param pers2 Personnage recevant le coup
-     * @return String["texte du coup", "dégat infligé"]
+     * action sur la personne
+     * @param pers Personnage recevant le coup
      */
-    protected abstract String[] attaqueBasique(Person pers1, Person pers2);
+    protected abstract void attaqueBasique(Person pers);
 
     /**
-     * action de pers1 sur pers2
-     * @param pers1 personnage infligeant le coup
-     * @param pers2 Personnage recevant le coup, Prs2 peut-être null au besoin
-     * @return String["texte du coup", "dégat infligé"]
+     * action sur la personne
+     * @param pers Personnage recevant le coup, mais peut être null au besoin
      */
-    protected abstract String[] attaqueSpeciale(Person pers1, Person pers2);
+    protected abstract void attaqueSpeciale(Person pers);
 
     /**
      * Vérifie si la somme des caractéristiques de force, agilité et intelligence est égale au niveau du joueur
@@ -101,4 +104,25 @@ abstract class Person {
         return (this.intelligence >=0 && this.intelligence <= 100);
     }
 
+    protected boolean isAlive(){
+        return (this.vie > 0);
+    }
+
+    protected  class MessagePerson{
+        private ArrayList<String> playerInAttack;
+        private ArrayList<String> playerInDefense;
+
+        MessagePerson(){
+            this.playerInAttack =new ArrayList<String>();
+            this.playerInDefense =new ArrayList<String>();
+        }
+
+        public ArrayList<String> getPlayerInAttack() {
+            return playerInAttack;
+        }
+
+        public ArrayList<String> getPlayerInDefense() {
+            return playerInDefense;
+        }
+    }
 }
