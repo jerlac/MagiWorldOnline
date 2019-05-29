@@ -1,35 +1,35 @@
 package Main;
 
-class Player {
+public class Player {
     private Person pers;
     private int niveau;
     private int force;
     private int agility;
     private int intelligence;
 
-    protected enum TypePlayer{
+    public enum TypePlayer{
         Guerrier,
         Rodeur,
         Mage
     }
 
-    protected enum TypeAttack{
+    public enum TypeAttack{
         attaqueBasique,
         attaqueSpeciale
     }
 
-    Player(int niveau, int force, int agility, int intelligence){
+    public Player(int niveau, int force, int agility, int intelligence){
         this.niveau =niveau;
         this.force =force;
         this.agility =agility;
         this.intelligence =intelligence;
     }
 
-    int getVitality(){
+    public int getVitality(){
         return this.pers.getVie();
     }
 
-    Person.MessagePerson getMessagePerson(){
+    public Person.MessagePerson getMessagePerson(){
         return this.pers.getMessagePerson();
     }
 
@@ -81,7 +81,7 @@ class Player {
      * @param typePlayer le type choisi
      * @return true si la création s'est bien passée, false sinon
      */
-    boolean createPlayer(int numPlayer, TypePlayer typePlayer){
+    public boolean createPlayer(int numPlayer, TypePlayer typePlayer){
         if(!this.checkInputValues())
             return false;
 
@@ -128,7 +128,7 @@ class Player {
             return false;
         }
         if(!this.checkInputMinMaxNiveau()){
-            Utility.writeMsg("La force doit être entre 1 et 100");
+            Utility.writeMsg("Le niveau doit être entre 1 et 100");
             return false;
         }
         if(!this.checkSumInputSkills()) {
@@ -145,7 +145,7 @@ class Player {
      * @param attack Le type d'attaque
      * @param playerAdverse le joueur adverse sur lequel lancer l'action
      */
-    void executeAction(TypeAttack attack, Player playerAdverse){
+    public void executeAction(TypeAttack attack, Player playerAdverse){
         switch (attack){
             case attaqueBasique:
                 this.pers.attaqueBasique(playerAdverse.pers);
@@ -160,7 +160,7 @@ class Player {
      * Vérifie si le joueur est encore en vie
      * @return true si vivant, false sinon
      */
-    boolean isAlive(){
+    public boolean isAlive(){
         return this.pers.isAlive();
     }
 }

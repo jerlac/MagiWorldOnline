@@ -124,7 +124,7 @@ public class Main {
      * @param numPlayer le numéro du joueur en cours
      * @return Le Player créé
      */
-    private static Player getPlayer(Scanner sc, int numPlayer) {
+    public static Player getPlayer(Scanner sc, int numPlayer) {
         Utility.writeMsg("Création du personnage du Joueur " +numPlayer);
         Player.TypePlayer typePlayer =askTypePers(sc);
         int inputNiveau =askInput(sc, 1, 100, "Niveau");

@@ -12,7 +12,7 @@ public class Guerrier extends Person {
      * @param pers Personnage recevant le coup
      */
     @Override
-    protected void attaqueBasique(Person pers) {
+    public void attaqueBasique(Person pers) {
         MessagePerson msgPers =this.getMessagePerson();
         ArrayList<String> msgAttack =new ArrayList<String>();
         ArrayList<String> msgDef =new ArrayList<String>();
@@ -35,7 +35,7 @@ public class Guerrier extends Person {
      * @param pers Personnage recevant le coup
      */
     @Override
-    protected void attaqueSpeciale(Person pers) {
+    public void attaqueSpeciale(Person pers) {
         MessagePerson msgPers =this.getMessagePerson();
         ArrayList<String> msgAttack =new ArrayList<String>();
         ArrayList<String> msgDef =new ArrayList<String>();

@@ -21,33 +21,33 @@ public abstract class Person {
         this.msgPerson =new MessagePerson();
     }
 
-    MessagePerson getMessagePerson(){ return msgPerson; }
+    public MessagePerson getMessagePerson(){ return msgPerson; }
 
-    int getNiveau() {
+    public int getNiveau() {
         return niveau;
     }
 
-    int getVie() {
+    public int getVie() {
         return vie;
     }
 
-    void setVie(int vie) {
+    public void setVie(int vie) {
         this.vie = vie;
     }
 
-    int getForce() {
+    public int getForce() {
         return force;
     }
 
-    int getAgility() {
+    public int getAgility() {
         return agility;
     }
 
-    void setAgility(int agility) {
+    public void setAgility(int agility) {
         this.agility = agility;
     }
 
-    int getIntelligence() {
+    public int getIntelligence() {
         return intelligence;
     }
 
@@ -55,42 +55,42 @@ public abstract class Person {
      * action sur la personne
      * @param pers Personnage recevant le coup
      */
-    protected abstract void attaqueBasique(Person pers);
+    public abstract void attaqueBasique(Person pers);
 
     /**
      * action sur la personne
-     * @param pers Personnage recevant le coup, mais peut Ãªtre null au besoin
+     * @param pers Personnage recevant le coup, mais peut être null au besoin
      */
-    protected abstract void attaqueSpeciale(Person pers);
+    public abstract void attaqueSpeciale(Person pers);
 
-    boolean isAlive(){
+    public boolean isAlive(){
         return (this.vie > 0);
     }
 
     /**
-     * Permet d'avoir le smessages Ã  destination des joueurs en attaque ou en défense
+     * Permet d'avoir les messages à destination des joueurs en attaque ou en défense
      */
-    class MessagePerson{
+    public class MessagePerson{
         private ArrayList<String> playerInAttack;
         private ArrayList<String> playerInDefense;
 
-        MessagePerson(){
+        public MessagePerson(){
 
         }
 
-        ArrayList<String> getPlayerInAttack() {
+        public ArrayList<String> getPlayerInAttack() {
             return playerInAttack;
         }
 
-        ArrayList<String> getPlayerInDefense() {
+        public ArrayList<String> getPlayerInDefense() {
             return playerInDefense;
         }
 
-        void setPlayerInAttack(ArrayList<String> playerInAttack) {
+        public void setPlayerInAttack(ArrayList<String> playerInAttack) {
             this.playerInAttack = playerInAttack;
         }
 
-        void setPlayerInDefense(ArrayList<String> playerInDefense) {
+        public void setPlayerInDefense(ArrayList<String> playerInDefense) {
             this.playerInDefense = playerInDefense;
         }
     }
