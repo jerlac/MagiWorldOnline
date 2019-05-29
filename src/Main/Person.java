@@ -1,7 +1,8 @@
+package Main;
 
 import java.util.ArrayList;
 
-abstract class Person {
+public abstract class Person {
     private int niveau;
     private int vie;
     private int force;
@@ -9,7 +10,7 @@ abstract class Person {
     private int intelligence;
     private MessagePerson msgPerson;
 
-    Person(int niveau, int force, int agility, int intelligence) {
+    public Person(int niveau, int force, int agility, int intelligence) {
         this.niveau = niveau;
         this.force = force;
         this.agility = agility;

@@ -1,13 +1,19 @@
+package Main;
 
 import java.util.ArrayList;
 
-public class Rodeur extends Person {
-    Rodeur(int niveau, int force, int agility, int intelligence) {
+
+public class Mage extends Person {
+    private int vieInitiale;
+
+    Mage(int niveau, int force, int agility, int intelligence) {
         super(niveau, force, agility, intelligence);
+
+        this.vieInitiale = this.getVie();
     }
 
     /**
-     * tir à l'arc infligé sur pers
+     * boule de feu infligé sur pers
      * @param pers Personnage recevant le coup
      */
     @Override
@@ -16,10 +22,10 @@ public class Rodeur extends Person {
         ArrayList<String> msgAttack =new ArrayList<String>();
         ArrayList<String> msgDef =new ArrayList<String>();
 
-        int damage =this.getAgility();
+        int damage =this.getIntelligence();
         pers.setVie(pers.getVie() - damage);
 
-        msgAttack.add("utilise Tir à l'Arc et inflige "+ damage+ " dommages.");
+        msgAttack.add("utilise Boule de Feu et inflige "+ damage+ " dommages.");
         msgDef.add("perd "+ damage+ " points de vie.");
 
         if(pers.getVie() <=0)
@@ -30,7 +36,7 @@ public class Rodeur extends Person {
     }
 
     /**
-     * concentration sur lui-même
+     * soin pour lui-même
      * @param pers inutile ici, passez null
      */
     @Override
@@ -38,11 +44,16 @@ public class Rodeur extends Person {
         MessagePerson msgPers =this.getMessagePerson();
         ArrayList<String> msgAttack =new ArrayList<String>();
 
-        //Gain d'agilité pour lui-même
-        int result =this.getNiveau() / 2;
-        this.setAgility(this.getAgility() +result);
+        //Gain de vie pour lui-même
+        int result =this.getIntelligence() * 2;
+        int newVie = this.getVie() + result;
 
-        msgAttack.add("utilise Concentration et gagne "+ result+ " en agilité.");
+        if(newVie > this.vieInitiale)
+            newVie =this.vieInitiale;
+
+        this.setVie(newVie);
+
+        msgAttack.add("utilise Soin et gagne "+ result+ " en vitalité.");
 
         msgPers.setPlayerInAttack(msgAttack);
         msgPers.setPlayerInDefense(null);

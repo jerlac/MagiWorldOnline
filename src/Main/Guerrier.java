@@ -1,9 +1,9 @@
-
+package Main;
 
 import java.util.ArrayList;
 
 public class Guerrier extends Person {
-    Guerrier(int niveau, int force, int agility, int intelligence) {
+    public Guerrier(int niveau, int force, int agility, int intelligence) {
         super(niveau, force, agility, intelligence);
     }
 

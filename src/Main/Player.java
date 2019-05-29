@@ -1,3 +1,4 @@
+package Main;
 
 class Player {
     private Person pers;
